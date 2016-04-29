@@ -20,11 +20,12 @@ public class Coin : MonoBehaviour {
 			if (this.spawner != null) {
 				this.spawner.removeCoin (this);
 			}
-			onPickup ();
+            SimpleCarController car = col.transform.root.GetComponent<SimpleCarController>();
+			onPickup (car);
 		}
 	}
 
-	protected virtual void onPickup(){
+	protected virtual void onPickup(SimpleCarController car){
 		GameObject.FindObjectOfType<IncrementScore> ().addToScore (100);
 	}
 }

@@ -24,13 +24,17 @@ public class SimpleCarController : MonoBehaviour
 	public bool controllable = true;
 
 	public void Update(){
-//		Debug.Log ("Car controller is still alive!");
-		if(carRB.velocity.magnitude < 0.001f && Physics.Raycast(transform.position,Vector3.down,0.1f,LayerMask.NameToLayer("Floor"))){
-			Debug.Log("We have fallen over. Reset");
+		if(controllable && carRB.velocity.magnitude < 0.001f && !Physics.Raycast(transform.position,transform.up*-1,0.3f,LayerMask.NameToLayer("Floor"))){
 			controllable = false;
 			StartCoroutine (waitAndReorient (2.0f));
 		}
 	}
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawRay(transform.position, transform.up * -1*0.3f);
+    }
 
 	private IEnumerator waitAndReorient(float time){
 		controllable = false;
@@ -50,9 +54,7 @@ public class SimpleCarController : MonoBehaviour
 		}
 		steering = maxSteeringAngle * hAxis;
 		motor = maxMotorTorque * vAxis;
-			
-		Debug.Log ("M: " + motor);
-		Debug.Log ("S:" + steering);
+
 		foreach (AxleInfo axleInfo in axleInfos) {
 			if (axleInfo.steering) {
 				axleInfo.leftWheel.collider.steerAngle = steering;
@@ -90,22 +92,28 @@ public class SimpleCarController : MonoBehaviour
 		controllable = true;
 	}
 
-	// finds the corresponding visual wheel
-	// correctly applies the transform
-	public void ApplyLocalPositionToVisuals(Wheel wheel)
-	{
-		if (wheel.mesh == null) {
-			return;
-		}
+    // finds the corresponding visual wheel
+    // correctly applies the transform
+    public void ApplyLocalPositionToVisuals(Wheel wheel)
+    {
+        if (wheel.mesh == null) {
+            return;
+        }
 
-		Transform visualWheel = wheel.mesh.transform;
+        Transform visualWheel = wheel.mesh.transform;
 
-		Vector3 position;
-		Quaternion rotation;
-		wheel.collider.GetWorldPose(out position, out rotation);
+        Vector3 position;
+        Quaternion rotation;
+        wheel.collider.GetWorldPose(out position, out rotation);
 
-		visualWheel.transform.position = position;
-		visualWheel.transform.rotation = rotation;
+        visualWheel.transform.position = position;
+        if (wheel.shouldFlip)
+        {
+            visualWheel.transform.rotation = rotation * Quaternion.Euler(new Vector3(0,180,0));
+        }
+        else {
+            visualWheel.transform.rotation = rotation;
+        }
 	}
 }
 
@@ -125,4 +133,5 @@ public class Wheel
 {
 	public WheelCollider collider;
 	public GameObject mesh;
+    public bool shouldFlip = false;
 }
