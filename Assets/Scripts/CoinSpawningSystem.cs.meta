@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 6f251ee8fdc3f49a1867d1652dff57bb
+timeCreated: 1460310598
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - scoreCoin: {fileID: 198272, guid: c02a88668a86748b6829c1f098157811, type: 2}
+  - playSpaceMesh: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
