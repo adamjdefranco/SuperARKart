@@ -13,6 +13,8 @@ public class CoinSpawningSystem : MonoBehaviour
     public GameObject[] powerupCoins;
 
 	public GameObject plusOneHundred;
+	public GameObject sizePowerupText;
+	public GameObject nonePowerupText;
 
     public float raycastY = 5f;
     public float coinHoverHeight = 0.5f;

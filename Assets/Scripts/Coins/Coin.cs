@@ -27,9 +27,12 @@ public class Coin : MonoBehaviour {
     public virtual IEnumerator triggerEffect(SimpleCarController car)
     {
         GameObject.FindObjectOfType<IncrementScore>().addToScore(100);
-		this.spawner.plusOneHundred.SetActive (true);
+		//this.spawner.plusOneHundred.SetActive (true);
+		this.spawner.sizePowerupText.SetActive(true);
+		this.spawner.nonePowerupText.SetActive (false);
 		yield return new WaitForSeconds (1f);
-		this.spawner.plusOneHundred.SetActive (false);
+		//this.spawner.sizePowerupText.SetActive(false);
+		//this.spawner.plusOneHundred.SetActive (false);
         yield break;
     }
 
