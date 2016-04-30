@@ -17,15 +17,28 @@ public class Coin : MonoBehaviour {
 	void OnTriggerEnter(Collider col) {
 		Debug.Log ("COIN COLLISION");
 		if (col.gameObject.layer == LayerMask.NameToLayer("Player")) {
+            SimpleCarController car = col.gameObject.transform.root.GetComponent<SimpleCarController>();
 			if (this.spawner != null) {
-				this.spawner.removeCoin (this);
+                this.spawner.pickedUpCoin(this,car);
 			}
-            SimpleCarController car = col.transform.root.GetComponent<SimpleCarController>();
-			onPickup (car);
 		}
 	}
 
-	protected virtual void onPickup(SimpleCarController car){
-		GameObject.FindObjectOfType<IncrementScore> ().addToScore (100);
-	}
+    public virtual IEnumerator triggerEffect(SimpleCarController car)
+    {
+        GameObject.FindObjectOfType<IncrementScore>().addToScore(100);
+        yield break;
+    }
+
+
+    public virtual bool canPickupDuringPowerup()
+    {
+        return true;
+    }
+
+    public virtual bool isPowerupCoin()
+    {
+        return false;
+    }
+    
 }
