@@ -1,14 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SpeedUpCoin : Coin
+public class ScoreMultiplierCoin : Coin
 {
 
     public float effectTime;
-    public float speedScale;
+    public float scoreScale;
 
-    private float originalBraking;
-    private float originalMotor;
+    private float originalScoreScale;
 
     public override IEnumerator triggerEffect(SimpleCarController car)
     {
@@ -17,19 +16,16 @@ public class SpeedUpCoin : Coin
             Debug.Log("Broken Car!");
             yield break;
         }
-        originalMotor = car.maxMotorTorque;
-        originalBraking = car.maxBrakingForce;
 
-        Debug.Log("Motor: " + originalMotor);
-        Debug.Log("Brake: " + originalBraking);
+        IncrementScore scoreHolder = GameObject.FindObjectOfType<IncrementScore>();
 
-        car.maxBrakingForce *= speedScale;
-        car.maxMotorTorque *= speedScale;
+        originalScoreScale = scoreHolder.scoreScaleFactor;
+
+        scoreHolder.scoreScaleFactor = scoreScale;
 
         yield return new WaitForSeconds(effectTime);
 
-        car.maxMotorTorque = originalMotor;
-        car.maxBrakingForce = originalBraking;
+        scoreHolder.scoreScaleFactor = originalScoreScale;
     }
 
     public override bool isPowerupCoin()

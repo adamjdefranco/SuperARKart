@@ -6,6 +6,8 @@ public class IncrementScore : MonoBehaviour {
 
 	public int score = 0;
 
+    public float scoreScaleFactor = 1.0f;
+
 	// Use this for initialization
 	void Start () {
 
@@ -14,7 +16,10 @@ public class IncrementScore : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		Text scoreText = this.gameObject.GetComponent<Text> ();
-		scoreText.text = score.ToString();
+        if(scoreText != null) {
+            scoreText.text = score.ToString();
+        }
+		
 	}
 
 	//IEnumerator waitForTime() {
@@ -25,6 +30,6 @@ public class IncrementScore : MonoBehaviour {
 	//}
 
 	public void addToScore(int increment) {
-		score += increment;
+		score += Mathf.RoundToInt(scoreScaleFactor* increment);
 	}
 }
