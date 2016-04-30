@@ -61,8 +61,12 @@ public class StopExpanding : MonoBehaviour {
 		//newCar.SetActive(true);
 
 		CountDownScript countDown = GameObject.FindObjectOfType<CountDownScript> ();
-		//countDown.timeLeft = 60.0f;
-		countDown.timeLeft = GameObject.FindObjectOfType<TimeBetweenScenes>().TimeForRound;
+
+		float timeForRound = 30f;
+		if (GameObject.FindObjectOfType<TimeBetweenScenes> () != null) {
+			timeForRound = GameObject.FindObjectOfType<TimeBetweenScenes> ().TimeForRound;
+		} 
+		countDown.timeLeft = timeForRound;
 		countDown.runScript = true;
 
 		CoinSpawningSystem css = GameObject.FindObjectOfType<CoinSpawningSystem> ();

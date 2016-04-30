@@ -4,6 +4,11 @@ using System.Collections;
 public class Coin : MonoBehaviour {
 
 	CoinSpawningSystem spawner;
+	private IncrementScore userScore;
+
+	void Awake() {
+		userScore = GameObject.FindObjectOfType<IncrementScore> ();
+	}
 
 	// Update is called once per frame
 	void Update () {
@@ -20,11 +25,24 @@ public class Coin : MonoBehaviour {
 			if (this.spawner != null) {
 				this.spawner.removeCoin (this);
 			}
+			Debug.Log ("Here5");
 			onPickup ();
 		}
 	}
 
 	protected virtual void onPickup(){
-		GameObject.FindObjectOfType<IncrementScore> ().addToScore (100);
+		userScore.addToScore (100);
+		spawner.plusOneHundred.SetActive (true);
+		StartCoroutine (WaitForHalfASecond());
 	}
+
+	IEnumerator WaitForHalfASecond() {
+		Debug.Log ("Here");
+		yield return new WaitForSeconds(1f);
+		Debug.Log ("Here1");
+		spawner.plusOneHundred.SetActive (false);
+		Debug.Log ("Here2");
+	}
+
+
 }
