@@ -4,6 +4,11 @@ using System.Collections;
 public class Coin : MonoBehaviour {
 
 	CoinSpawningSystem spawner;
+	private IncrementScore userScore;
+
+	void Awake() {
+		userScore = GameObject.FindObjectOfType<IncrementScore> ();
+	}
 
 	// Update is called once per frame
 	void Update () {
@@ -15,23 +20,40 @@ public class Coin : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider col) {
+		Debug.Log ("COIN COLLISION");
 		if (col.gameObject.layer == LayerMask.NameToLayer("Player")) {
             SimpleCarController car = col.gameObject.transform.root.GetComponent<SimpleCarController>();
 			if (this.spawner != null) {
                 this.spawner.pickedUpCoin(this,car);
 			}
+<<<<<<< HEAD:Assets/Scripts/Coin.cs
+			Debug.Log ("Here5");
+			onPickup ();
+		}
+	}
+
+	protected virtual void onPickup(){
+		userScore.addToScore (100);
+		spawner.plusOneHundred.SetActive (true);
+		StartCoroutine (WaitForHalfASecond());
+	}
+
+	IEnumerator WaitForHalfASecond() {
+		Debug.Log ("Here");
+		yield return new WaitForSeconds(1f);
+		Debug.Log ("Here1");
+		spawner.plusOneHundred.SetActive (false);
+		Debug.Log ("Here2");
+	}
+
+
+=======
 		}
 	}
 
     public virtual IEnumerator triggerEffect(SimpleCarController car)
     {
         GameObject.FindObjectOfType<IncrementScore>().addToScore(100);
-		//this.spawner.plusOneHundred.SetActive (true);
-		this.spawner.sizePowerupText.SetActive(true);
-		this.spawner.nonePowerupText.SetActive (false);
-		yield return new WaitForSeconds (1f);
-		//this.spawner.sizePowerupText.SetActive(false);
-		//this.spawner.plusOneHundred.SetActive (false);
         yield break;
     }
 
@@ -46,4 +68,5 @@ public class Coin : MonoBehaviour {
         return false;
     }
     
+>>>>>>> e0835d183f7ab805bff6dd65b1b493d12bfd83f8:Assets/Scripts/Coins/Coin.cs
 }

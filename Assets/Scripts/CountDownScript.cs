@@ -19,7 +19,7 @@ public class CountDownScript : MonoBehaviour {
 
 			int minutes = Mathf.FloorToInt(timeLeft / 60F);
 			int seconds = Mathf.FloorToInt(timeLeft - minutes * 60);
-			int milliseconds = (int)((timeLeft * 1000) % 1000) % 100;
+			int milliseconds = (int)((timeLeft * 1000) % 1000) / 10;
 
 			string niceTime;
 			if (minutes < 1) {
@@ -34,9 +34,13 @@ public class CountDownScript : MonoBehaviour {
 			if (timeLeft < 0) {
 				countDownText.text = 0f.ToString();
 				runScript = false;
-				//GameOver();
+				GameOver();
 			}
 		}
+	}
+
+	void GameOver () {
+
 	}
 
 
