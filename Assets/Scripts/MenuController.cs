@@ -5,31 +5,36 @@ using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour {
 
-	public string sceneToLoad = "ARGame"; 
-
 	public GameObject LoadingScene;
 	public Image LoadingBar;
 	public GameObject mainMenu;
-	public GameObject MatchTimesMenu;
+	public GameObject ARMatchTimes;
 	public GameObject sounds;
 	public GameObject GameOverScreen;
 	public GameObject MainMenuCanvas;
 	public GameObject finalScoreField;
+	public GameObject Leaderboards;
 
 	// Use this for initialization
 	void Start () {
-		TimeBetweenScenes sceneTimeStorage = GameObject.FindObjectOfType<TimeBetweenScenes> ();
-		if (sceneTimeStorage != null && sceneTimeStorage.IsComingFromEndGame) {
+		if (GameObject.FindObjectOfType<TimeBetweenScenes> ().IsComingFromEndGame) {
 			MainMenuCanvas.SetActive (false);
 			GameOverScreen.SetActive (true);
 			finalScoreField.GetComponent<Text> ().text = GameObject.FindObjectOfType<ScoreBetweenScenes> ().score.ToString();
 		} 
 	}
 
+	public void navigateToCertainCanvas(bool gameOverScreen, bool leaderboards, bool mainMenuCanvas, bool arMatchTimes, bool mainMenuButtons) {
+		GameOverScreen.SetActive (gameOverScreen);
+		MainMenuCanvas.SetActive (mainMenuCanvas);
+		Leaderboards.SetActive (leaderboards);
+		ARMatchTimes.SetActive (arMatchTimes);
+		mainMenu.SetActive (mainMenuButtons);
+	}
+
 	public void backToMainMenu() {
 		GameObject.Find ("Sounds").GetComponent<AudioSource> ().Play ();
-		GameOverScreen.SetActive (false);
-		MainMenuCanvas.SetActive (true);
+		navigateToCertainCanvas (false, false, true, false, true);
 	}
 	
 	// Update is called once per frame
@@ -37,52 +42,46 @@ public class MenuController : MonoBehaviour {
 	
 	}
 
-	public void onPlayARClick() {
+	public void goToLeaderBoards() {
 		sounds.GetComponent<AudioSource> ().Play ();
-		mainMenu.SetActive (false);
-		sceneToLoad = "ARGame";
-		MatchTimesMenu.SetActive (true);
+		navigateToCertainCanvas (false, true, false, false, false);
 	}
 
-	public void onPlayStandardClick(){
+	public void onPlayARClick() {
 		sounds.GetComponent<AudioSource> ().Play ();
-		mainMenu.SetActive (false);
-		sceneToLoad = "NonARGame";
-		MatchTimesMenu.SetActive (true);
+		navigateToCertainCanvas (false, false, true, true, false);
 	}
 
 	public void onBackClick() {
 		sounds.GetComponent<AudioSource> ().Play ();
-		MatchTimesMenu.SetActive (false);
-		mainMenu.SetActive (true);
+		navigateToCertainCanvas (false, false, true, false, true);
 	}
 
 	public void onOneMinuteClick() {
 		sounds.GetComponent<AudioSource> ().Play ();
 		GameObject.FindObjectOfType<TimeBetweenScenes> ().TimeForRound = 60f;
-		moveToScene ();
+		moveToARScene ();
 	}
 
 	public void onThreeMinuteClick() {
 		sounds.GetComponent<AudioSource> ().Play ();
 		GameObject.FindObjectOfType<TimeBetweenScenes> ().TimeForRound = 180f;
-		moveToScene ();
+		moveToARScene ();
 	}
 
 	public void onFiveMinuteClick() {
 		sounds.GetComponent<AudioSource> ().Play ();
 		GameObject.FindObjectOfType<TimeBetweenScenes> ().TimeForRound = 300f;
-		moveToScene ();
+		moveToARScene ();
 	}
 
-	public void moveToScene() {
-		StartCoroutine (LevelCoroutine (sceneToLoad));
+	public void moveToARScene() {
+		StartCoroutine (LevelCoroutine ("ARGame"));
 	}
 
 	public void navigateToMenu() {
 		StartCoroutine (LevelCoroutine ("MainMenu"));
-		GameOverScreen.SetActive (false);
-		MainMenuCanvas.SetActive (true);
+		navigateToCertainCanvas (false, false, true, false, true);
 	}
 
 	// Loads the next level and shows a loading bar in the meantime
