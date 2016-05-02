@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class ScoreMultiplierCoin : Coin
 {
@@ -23,7 +24,19 @@ public class ScoreMultiplierCoin : Coin
 
         scoreHolder.scoreScaleFactor = scoreScale;
 
+		base.spawner.powerupTimeLeftFillImage.GetComponent<decreaseFillAmount> ().resetFillAmount ();
+		base.spawner.powerupText.SetActive(true);
+		base.spawner.powerupText.GetComponent<Text> ().text = "Multiplier " + scoreScale + "X";
+		base.spawner.nonePowerupText.SetActive (false);
+		if (scoreScale == .5f) {
+			GameObject.FindObjectOfType<SoundController> ().playHalfCoinMultiplierSound ();
+		} else {
+			GameObject.FindObjectOfType<SoundController> ().playPowerupSound ();
+		}
+
         yield return new WaitForSeconds(effectTime);
+		base.spawner.powerupText.SetActive (false);
+		base.spawner.nonePowerupText.SetActive (true);
 
         scoreHolder.scoreScaleFactor = originalScoreScale;
     }

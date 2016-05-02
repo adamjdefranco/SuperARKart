@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class SpeedUpCoin : Coin
 {
@@ -26,7 +27,14 @@ public class SpeedUpCoin : Coin
         car.maxBrakingForce *= speedScale;
         car.maxMotorTorque *= speedScale;
 
+		base.spawner.powerupTimeLeftFillImage.GetComponent<decreaseFillAmount> ().resetFillAmount ();
+		base.spawner.powerupText.SetActive(true);
+		base.spawner.powerupText.GetComponent<Text> ().text = "Speed Boost";
+		base.spawner.nonePowerupText.SetActive (false);
+		GameObject.FindObjectOfType<SoundController> ().playPowerupSound ();
         yield return new WaitForSeconds(effectTime);
+		base.spawner.powerupText.SetActive (false);
+		base.spawner.nonePowerupText.SetActive (true);
 
         car.maxMotorTorque = originalMotor;
         car.maxBrakingForce = originalBraking;

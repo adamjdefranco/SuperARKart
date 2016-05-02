@@ -69,8 +69,9 @@ public class MenuController : MonoBehaviour {
 	}
 
 	public void navigateToMenu() {
-		Debug.Log ("NavigateToMenuClicked");
 		StartCoroutine (LevelCoroutine ("MainMenu"));
+		GameOverScreen.SetActive (false);
+		MainMenuCanvas.SetActive (true);
 	}
 
 	// Loads the next level and shows a loading bar in the meantime
