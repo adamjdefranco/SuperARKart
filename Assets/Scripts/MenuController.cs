@@ -47,6 +47,7 @@ public class MenuController : MonoBehaviour {
 	public void goToLeaderBoards() {
 		sounds.GetComponent<AudioSource> ().Play ();
 		navigateToCertainCanvas (false, true, false, false, false, false);
+		Leaderboards.GetComponent<LeaderboardUI> ().fetchAndDisplayScores ();
 	}
 
 	public void onPlayARClick() {
