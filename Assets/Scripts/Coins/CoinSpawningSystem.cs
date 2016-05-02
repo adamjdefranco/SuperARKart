@@ -41,7 +41,6 @@ public class CoinSpawningSystem : MonoBehaviour
     {
         if (shouldSpawnCoins && visibleCoins.Count < numCoinsOnScreen)
         {
-            bounds = playSpaceMesh.GetComponent<Renderer>().bounds;
             float rand = Random.Range(0.0f, 1.0f);
             int randNum = -1;
             if (rand <= powerupProbability)
