@@ -5,11 +5,13 @@ using System.Collections;
 public class FollowObjectScript : MonoBehaviour {
 
 	public GameObject targetObject;
+	private bool staticCam;
 
 	Vector3 distanceVector;
 
 	// Use this for initialization
 	void Start () {
+		staticCam = true;
 		if (targetObject == null) {
 			Debug.LogError ("No Initial Camera Target Selected!");
 		}
