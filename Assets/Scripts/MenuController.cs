@@ -13,6 +13,7 @@ public class MenuController : MonoBehaviour {
 	public GameObject GameOverScreen;
 	public GameObject MainMenuCanvas;
 	public GameObject finalScoreField;
+	public GameObject Leaderboards;
 
 	// Use this for initialization
 	void Start () {
@@ -23,10 +24,17 @@ public class MenuController : MonoBehaviour {
 		} 
 	}
 
+	public void navigateToCertainCanvas(bool gameOverScreen, bool leaderboards, bool mainMenuCanvas, bool arMatchTimes, bool mainMenuButtons) {
+		GameOverScreen.SetActive (gameOverScreen);
+		MainMenuCanvas.SetActive (mainMenuCanvas);
+		Leaderboards.SetActive (leaderboards);
+		ARMatchTimes.SetActive (arMatchTimes);
+		mainMenu.SetActive (mainMenuButtons);
+	}
+
 	public void backToMainMenu() {
 		GameObject.Find ("Sounds").GetComponent<AudioSource> ().Play ();
-		GameOverScreen.SetActive (false);
-		MainMenuCanvas.SetActive (true);
+		navigateToCertainCanvas (false, false, true, false, true);
 	}
 	
 	// Update is called once per frame
@@ -34,16 +42,19 @@ public class MenuController : MonoBehaviour {
 	
 	}
 
+	public void goToLeaderBoards() {
+		sounds.GetComponent<AudioSource> ().Play ();
+		navigateToCertainCanvas (false, true, false, false, false);
+	}
+
 	public void onPlayARClick() {
 		sounds.GetComponent<AudioSource> ().Play ();
-		mainMenu.SetActive (false);
-		ARMatchTimes.SetActive (true);
+		navigateToCertainCanvas (false, false, true, true, false);
 	}
 
 	public void onBackClick() {
 		sounds.GetComponent<AudioSource> ().Play ();
-		ARMatchTimes.SetActive (false);
-		mainMenu.SetActive (true);
+		navigateToCertainCanvas (false, false, true, false, true);
 	}
 
 	public void onOneMinuteClick() {
@@ -70,8 +81,7 @@ public class MenuController : MonoBehaviour {
 
 	public void navigateToMenu() {
 		StartCoroutine (LevelCoroutine ("MainMenu"));
-		GameOverScreen.SetActive (false);
-		MainMenuCanvas.SetActive (true);
+		navigateToCertainCanvas (false, false, true, false, true);
 	}
 
 	// Loads the next level and shows a loading bar in the meantime
