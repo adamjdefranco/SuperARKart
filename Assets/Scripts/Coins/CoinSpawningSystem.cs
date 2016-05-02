@@ -95,6 +95,7 @@ public class CoinSpawningSystem : MonoBehaviour
             coin = Instantiate(powerupCoins[index]) as GameObject;
         }
         coin.transform.position = position + new Vector3(0,coinHoverHeight,0);
+		coin.transform.SetParent (this.transform);
         Coin cCoin = coin.GetComponent<Coin>();
         cCoin.setSpawner(this);
         visibleCoins.Add(cCoin);

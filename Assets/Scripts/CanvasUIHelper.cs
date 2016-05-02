@@ -10,12 +10,13 @@ public class CanvasUIHelper : MonoBehaviour {
 	public GameObject resetButton;
 
 	//ReconstructionBehaviour mReconstructionBehaviour;
-	SmartTerrainTracker      mTracker = TrackerManager.Instance.GetTracker<SmartTerrainTracker>();
-	ReconstructionBehaviour  mReconstructionBehaviour = (ReconstructionBehaviour)FindObjectOfType(typeof(ReconstructionBehaviour));
+	SmartTerrainTracker mTracker;
+	ReconstructionBehaviour mReconstructionBehaviour;
 
 	// Use this for initialization
 	void Start () {
-
+		mTracker = TrackerManager.Instance.GetTracker<SmartTerrainTracker>();
+		mReconstructionBehaviour = (ReconstructionBehaviour)FindObjectOfType(typeof(ReconstructionBehaviour));
 	}
 	
 	// Update is called once per frame

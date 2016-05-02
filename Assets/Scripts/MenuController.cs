@@ -5,10 +5,12 @@ using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour {
 
+	public string sceneToLoad = "ARGame"; 
+
 	public GameObject LoadingScene;
 	public Image LoadingBar;
 	public GameObject mainMenu;
-	public GameObject ARMatchTimes;
+	public GameObject MatchTimesMenu;
 	public GameObject sounds;
 	public GameObject GameOverScreen;
 	public GameObject MainMenuCanvas;
@@ -16,7 +18,8 @@ public class MenuController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		if (GameObject.FindObjectOfType<TimeBetweenScenes> ().IsComingFromEndGame) {
+		TimeBetweenScenes sceneTimeStorage = GameObject.FindObjectOfType<TimeBetweenScenes> ();
+		if (sceneTimeStorage != null && sceneTimeStorage.IsComingFromEndGame) {
 			MainMenuCanvas.SetActive (false);
 			GameOverScreen.SetActive (true);
 			finalScoreField.GetComponent<Text> ().text = GameObject.FindObjectOfType<ScoreBetweenScenes> ().score.ToString();
@@ -37,35 +40,43 @@ public class MenuController : MonoBehaviour {
 	public void onPlayARClick() {
 		sounds.GetComponent<AudioSource> ().Play ();
 		mainMenu.SetActive (false);
-		ARMatchTimes.SetActive (true);
+		sceneToLoad = "ARGame";
+		MatchTimesMenu.SetActive (true);
+	}
+
+	public void onPlayStandardClick(){
+		sounds.GetComponent<AudioSource> ().Play ();
+		mainMenu.SetActive (false);
+		sceneToLoad = "NonARGame";
+		MatchTimesMenu.SetActive (true);
 	}
 
 	public void onBackClick() {
 		sounds.GetComponent<AudioSource> ().Play ();
-		ARMatchTimes.SetActive (false);
+		MatchTimesMenu.SetActive (false);
 		mainMenu.SetActive (true);
 	}
 
 	public void onOneMinuteClick() {
 		sounds.GetComponent<AudioSource> ().Play ();
 		GameObject.FindObjectOfType<TimeBetweenScenes> ().TimeForRound = 60f;
-		moveToARScene ();
+		moveToScene ();
 	}
 
 	public void onThreeMinuteClick() {
 		sounds.GetComponent<AudioSource> ().Play ();
 		GameObject.FindObjectOfType<TimeBetweenScenes> ().TimeForRound = 180f;
-		moveToARScene ();
+		moveToScene ();
 	}
 
 	public void onFiveMinuteClick() {
 		sounds.GetComponent<AudioSource> ().Play ();
 		GameObject.FindObjectOfType<TimeBetweenScenes> ().TimeForRound = 300f;
-		moveToARScene ();
+		moveToScene ();
 	}
 
-	public void moveToARScene() {
-		StartCoroutine (LevelCoroutine ("ARGame"));
+	public void moveToScene() {
+		StartCoroutine (LevelCoroutine (sceneToLoad));
 	}
 
 	public void navigateToMenu() {
