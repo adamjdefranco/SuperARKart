@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Coin : MonoBehaviour {
 
-	CoinSpawningSystem spawner;
+	public CoinSpawningSystem spawner;
 
 	// Update is called once per frame
 	void Update () {
@@ -26,12 +27,16 @@ public class Coin : MonoBehaviour {
     public virtual IEnumerator triggerEffect(SimpleCarController car)
     {
         GameObject.FindObjectOfType<IncrementScore>().addToScore(100);
-		//this.spawner.plusOneHundred.SetActive (true);
-		this.spawner.sizePowerupText.SetActive(true);
-		this.spawner.nonePowerupText.SetActive (false);
+		this.spawner.plusOneHundred.GetComponent<Text>().text = "+ " + (GameObject.FindObjectOfType<IncrementScore> ().scoreScaleFactor * 100);
+		this.spawner.plusOneHundred.SetActive (true);
+
+
+		GameObject.FindObjectOfType<SoundController> ().playCoinSound ();
+//		this.spawner.sizePowerupText.SetActive(true);
+//		this.spawner.nonePowerupText.SetActive (false);
 		yield return new WaitForSeconds (1f);
 		//this.spawner.sizePowerupText.SetActive(false);
-		//this.spawner.plusOneHundred.SetActive (false);
+		this.spawner.plusOneHundred.SetActive (false);
         yield break;
     }
 

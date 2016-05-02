@@ -6,6 +6,7 @@ public class SoundController : MonoBehaviour {
 	public AudioSource ExplosionSound;
 	public AudioSource CoinSound;
 	public AudioSource PowerupSound;
+	public AudioSource HalfCoinMultiplier;
 	public AudioSource ClockLowSound;
 	public AudioSource GameOver;
 	public AudioSource Whoosh;
@@ -14,6 +15,7 @@ public class SoundController : MonoBehaviour {
 	public void playExplosionSound() { ExplosionSound.Play (); }
 	public void playCoinSound() { CoinSound.Play (); }
 	public void playPowerupSound() { PowerupSound.Play (); }
+	public void playHalfCoinMultiplierSound() { HalfCoinMultiplier.Play (); }
 	public void playClockLowSound() { ClockLowSound.Play (); }
 	public void StopClockLowSound() { ClockLowSound.Stop (); }
 	public void playGameOverSound() { GameOver.Play (); }
