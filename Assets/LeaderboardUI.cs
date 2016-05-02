@@ -11,6 +11,8 @@ public class LeaderboardUI : MonoBehaviour {
 
 	public GameObject scoresContainer;
 
+	public GameObject scrollViewport;
+
 	public GameObject scoresContentContainer;
 
 	private LeaderboardAPI api;
@@ -25,14 +27,21 @@ public class LeaderboardUI : MonoBehaviour {
 		if (api == null) {
 			api = GetComponent<LeaderboardAPI> ();
 		}
+		foreach(Transform child in scoresContentContainer.transform){
+			Destroy(child.gameObject);
+		}
+		scoresContainer.SetActive (false);
+		loadingText.enabled = true;
 		StartCoroutine(api.getLeaderboard (1, (scores) => {
 			loadingText.enabled = false;
 			scoresContainer.SetActive (true);
-			RectTransform scoreContainerTransform = scoresContentContainer.GetComponent<RectTransform>();
+			RectTransform scoreContainerTransform = scrollViewport.GetComponent<RectTransform>();
+			RectTransform contentContainerTransform = scoresContentContainer.GetComponent<RectTransform>();
 			float containerWidth = scoreContainerTransform.rect.width;
 			float containerHeight = scoreContainerTransform.rect.height;
 			float textHeight = containerHeight / 10;
 			float contentHeight = textHeight * scores.Count;
+			contentContainerTransform.sizeDelta = new Vector2(1,contentHeight);
 			for(int i=0; i<scores.Count; i++){
 				LeaderboardAPI.LeaderboardScore score = scores[i];
 				GameObject text = Instantiate(leaderboardTextObject) as GameObject;
