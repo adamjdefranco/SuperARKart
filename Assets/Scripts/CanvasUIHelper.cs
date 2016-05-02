@@ -23,21 +23,19 @@ public class CanvasUIHelper : MonoBehaviour {
 	
 	}
 
-	public void hideShowDollarFrame() {
-		Debug.Log ("ShowHideDollar");
-		dollarUI.SetActive(!dollarUI.activeInHierarchy);
+	public void toggleDollarFrame(bool setActive) {
+		dollarUI.SetActive(setActive);
 	}
 
-	public void hideShowGoResetButtons() {
-		goButton.SetActive(!goButton.activeInHierarchy);
-		resetButton.SetActive (!resetButton.activeInHierarchy);
+	public void toggleGoAndResetButtons(bool setActive) {
+		goButton.SetActive(setActive);
+		resetButton.SetActive (setActive);
 	}
 
 	public void onResetClicked() {
 
 		Debug.Log ("On Reset Click");
 
-		Debug.Log (mReconstructionBehaviour);
 		Debug.Log (mReconstructionBehaviour);
 
 		if ((mReconstructionBehaviour != null) && (mReconstructionBehaviour.Reconstruction != null)) {
@@ -53,7 +51,5 @@ public class CanvasUIHelper : MonoBehaviour {
 				mReconstructionBehaviour.Reconstruction.Start();
 			}
 		}
-
-		//mReconstructionBehaviour.Reconstruction.Reset();
 	}
 }

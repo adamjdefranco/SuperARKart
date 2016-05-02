@@ -110,8 +110,6 @@ public class SmartTerrainTrackableEventHandler : MonoBehaviour,
 
         Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " found");
 
-        //we want to show the soda can and iceberg at all times even when cylinder trackable is lost. The following makes sure they show
-        //as long as smart terrain is tracking
         if (m_CylinderTarget != null)
         {
             Renderer[] rendererComponentsOfCylinder = m_CylinderTarget.gameObject.GetComponentsInChildren<Renderer>(true);
@@ -151,7 +149,6 @@ public class SmartTerrainTrackableEventHandler : MonoBehaviour,
 
         Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " lost");
 
-        //hide the soda can and iceberg only when smart terrain tracking is lost.
 
         if (m_CylinderTarget != null)
         {

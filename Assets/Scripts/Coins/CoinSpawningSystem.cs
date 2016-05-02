@@ -110,6 +110,8 @@ public class CoinSpawningSystem : MonoBehaviour
 
     public void pickedUpCoin(Coin coin, SimpleCarController car)
     {
+		GameObject.FindObjectOfType<SoundController> ().playCoinSound();
+
         //Not using a powerup, or we can pick up this coin while a powerup is going on
         if (!isUsingPowerup || coin.canPickupDuringPowerup())
         {

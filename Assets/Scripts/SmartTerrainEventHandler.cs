@@ -124,13 +124,6 @@ public class SmartTerrainEventHandler : MonoBehaviour
                     Destroy(propRenderer);
                 }
 
-                /*Iceberg effect = Instantiate(IcePrefab) as Iceberg;
-                effect.name = "Ice";
-                effect.transform.parent = BoundingBox;
-                effect.transform.localPosition = new Vector3(0f, 0.032f, 0f);
-                effect.transform.localScale = new Vector3(100, 50, 100);
-                effect.transform.localRotation = Quaternion.identity;*/
-
             }
 
             m_propsCloned = true;

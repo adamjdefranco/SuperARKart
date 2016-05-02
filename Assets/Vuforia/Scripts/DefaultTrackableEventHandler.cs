@@ -85,8 +85,12 @@ namespace Vuforia
 
             Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " found");
 
-			GameObject.FindObjectOfType<CanvasUIHelper> ().hideShowDollarFrame ();
-			GameObject.FindObjectOfType<CanvasUIHelper> ().hideShowGoResetButtons ();
+			// Only toggles the dollar frame off and turns on the go and reset buttons if the dollar is found outside of gameplay (during setup)
+			if (GameObject.Find("TopPanel") == null) {
+				GameObject.FindObjectOfType<CanvasUIHelper> ().toggleDollarFrame (false);
+				GameObject.FindObjectOfType<CanvasUIHelper> ().toggleGoAndResetButtons (true);
+				GameObject.FindObjectOfType<SoundController> ().playWhooshSound ();
+			}
         }
 
 

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿/*using UnityEngine;
 using System.Collections;
 
 public class BoomKart : MonoBehaviour {
@@ -27,4 +27,4 @@ public class BoomKart : MonoBehaviour {
 		yield return new WaitForSeconds(1f);
 		Destroy (explosion);
 	}
-}
+}*/

@@ -6,62 +6,42 @@ public class StopExpanding : MonoBehaviour {
 
 	private SmartTerrainTracker mTracker;
 	private ReconstructionBehaviour mReconstructionBehaviour;
+
 	public GameObject greenKart;
 	public GameObject newCar;
 	public GameObject bottomPanel;
-
 	public GameObject goButton;
 	public GameObject resetButton;
 	public GameObject topPanel;
 	public GameObject menuButton;
-
 	public GameObject thisSurface;
+	public GameObject controls;
 
 	// Use this for initialization
 	void Start () {
 		mReconstructionBehaviour = GetComponent<ReconstructionBehaviour>();
 		mTracker = TrackerManager.Instance.GetTracker<SmartTerrainTracker>();
-
-
-		//StartCoroutine(WaitForTenSeconds());
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (Input.GetKey(KeyCode.Space)) {
-			stopReconstruction ();
-		}
 	}
 
-	/*IEnumerator WaitForTenSeconds() {
-		Debug.Log("In the CoRoutine");
-		yield return new WaitForSeconds(10);
-		Debug.Log("Ten Seconds Over");
-		if ((mReconstructionBehaviour != null) && (mReconstructionBehaviour.Reconstruction != null))
-		{
-			Debug.Log("Stopping the reconstruction");
-			mReconstructionBehaviour.Reconstruction.Stop();
-		}
-	}*/
-
-	void stopReconstruction() {
-		if ((mReconstructionBehaviour != null) && (mReconstructionBehaviour.Reconstruction != null))
-		{
+	// Handler for when the user clicks "Go!" to start the game. Ends construction of the ground mesh
+	public void stopReconstruction() {
+		if ((mReconstructionBehaviour != null) && (mReconstructionBehaviour.Reconstruction != null)) {
 			Debug.Log("Stopping the reconstruction");
 			mReconstructionBehaviour.Reconstruction.Stop();
 		}
 
+		// Activate the top panel for in-game play
 		topPanel.SetActive (!topPanel.activeInHierarchy);
-		//menuButton.SetActive (!menuButton.activeInHierarchy);
 
+		// Fades mesh to clear
 		Animator meshToClearAnimator = this.GetComponentInChildren<Animator> ();
 		meshToClearAnimator.Play ("FadeMeshToClear");
 
+		// Player appears on the screen
 		greenKart.SetActive (true);
-		//newCar.SetActive(true);
 
+		// Sets the timer for the round
 		CountDownScript countDown = GameObject.FindObjectOfType<CountDownScript> ();
-
 		float timeForRound = 30f;
 		if (GameObject.FindObjectOfType<TimeBetweenScenes> () != null) {
 			timeForRound = GameObject.FindObjectOfType<TimeBetweenScenes> ().TimeForRound;
@@ -69,22 +49,22 @@ public class StopExpanding : MonoBehaviour {
 		countDown.timeLeft = timeForRound;
 		countDown.runScript = true;
 
+		// Starts spawning coins
 		CoinSpawningSystem css = GameObject.FindObjectOfType<CoinSpawningSystem> ();
 		css.setCoinSpawnEnabled (true);
 
-		//GameObject.Find ("GoButton").SetActive (false);
+		// Set necessary panels active or inactive
+		goButton.SetActive (false);
+		resetButton.SetActive (false);
+		controls.SetActive (true);
 
-		goButton.SetActive (!goButton.activeInHierarchy);
-		resetButton.SetActive (!resetButton.activeInHierarchy);
-
-		bottomPanel.SetActive (true);
+		// Play the in game music
+		GameObject.FindObjectOfType<SoundController>().playInGameMusic();
 	}
 
+	// Handles the user reseting the construction of their table mesh
 	public void resetReconstruction() {
-		if ((mReconstructionBehaviour != null) && (mReconstructionBehaviour.Reconstruction != null))
-		{
-			Debug.Log ("In If");
-
+		if ((mReconstructionBehaviour != null) && (mReconstructionBehaviour.Reconstruction != null)) {
 			bool trackerWasActive = mTracker.IsActive;
 			// first stop the tracker
 			if (trackerWasActive)
@@ -98,10 +78,5 @@ public class StopExpanding : MonoBehaviour {
 				mReconstructionBehaviour.Reconstruction.Start();
 			}
 		}
-	}
-
-	public void iosButtonWorking() {
-		Debug.Log ("iOS button was clicked!");
-		stopReconstruction ();
 	}
 }
