@@ -17,6 +17,8 @@ public class CoinSpawningSystem : MonoBehaviour
 	public GameObject nonePowerupText;
 	public GameObject powerupTimeLeftFillImage;
 
+	public float sizeScaleFactor = 1;
+
     public float raycastY = 5f;
     public float coinHoverHeight = 0.5f;
 
@@ -96,6 +98,7 @@ public class CoinSpawningSystem : MonoBehaviour
         }
         coin.transform.position = position + new Vector3(0,coinHoverHeight,0);
 		coin.transform.SetParent (this.transform);
+		coin.transform.localScale *= sizeScaleFactor;
         Coin cCoin = coin.GetComponent<Coin>();
         cCoin.setSpawner(this);
         visibleCoins.Add(cCoin);
