@@ -5,6 +5,7 @@ public class TimeBetweenScenes : MonoBehaviour {
 
 	public float TimeForRound;
 	public bool IsComingFromEndGame;
+	public LeaderboardAPI.MatchType matchType;
 
 	void Awake() {
 		Object.DontDestroyOnLoad(this);

@@ -51,6 +51,7 @@ public class CountDownScript : MonoBehaviour {
 				//Persist score to main menu
 				GameObject.FindObjectOfType<TimeBetweenScenes>().IsComingFromEndGame = true;
 				GameObject.FindObjectOfType<ScoreBetweenScenes> ().score = (int)GameObject.FindObjectOfType<IncrementScore> ().score;
+				GameObject.FindObjectOfType<ScoreBetweenScenes> ().matchType = GameObject.FindObjectOfType<TimeBetweenScenes> ().matchType;
 			}
 		}
 	}

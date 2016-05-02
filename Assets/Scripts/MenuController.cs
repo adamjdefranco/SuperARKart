@@ -16,11 +16,23 @@ public class MenuController : MonoBehaviour {
 	public GameObject Leaderboards;
 	public GameObject StandardMatchTimes;
 
+	public LeaderboardAPI api;
+
 	// Use this for initialization
 	void Start () {
 		if (GameObject.FindObjectOfType<TimeBetweenScenes> ().IsComingFromEndGame) {
+			int score = GameObject.FindObjectOfType<ScoreBetweenScenes> ().score;
+			LeaderboardAPI.MatchType mType = GameObject.FindObjectOfType<ScoreBetweenScenes> ().matchType;
+			api.submitScoreAsync(score, mType, () => {
+				Debug.Log ("Submitted score successfully to leaderboard.");
+			},
+				(error, errorData) => {
+					Debug.LogError ("Something went wrong while submitting a score. " + error + ", data: " + errorData.ToString ());
+				});
+			
 			MainMenuCanvas.SetActive (false);
 			GameOverScreen.SetActive (true);
+
 			finalScoreField.GetComponent<Text> ().text = GameObject.FindObjectOfType<ScoreBetweenScenes> ().score.ToString();
 		} 
 	}
@@ -70,18 +82,21 @@ public class MenuController : MonoBehaviour {
 	public void onOneMinuteClickAR() {
 		sounds.GetComponent<AudioSource> ().Play ();
 		GameObject.FindObjectOfType<TimeBetweenScenes> ().TimeForRound = 60f;
+		GameObject.FindObjectOfType<TimeBetweenScenes> ().matchType = LeaderboardAPI.MatchType.OneMinuteAR;
 		moveToARScene ();
 	}
 
 	public void onThreeMinuteClickAR() {
 		sounds.GetComponent<AudioSource> ().Play ();
 		GameObject.FindObjectOfType<TimeBetweenScenes> ().TimeForRound = 180f;
+		GameObject.FindObjectOfType<TimeBetweenScenes> ().matchType = LeaderboardAPI.MatchType.ThreeMinuteAR;
 		moveToARScene ();
 	}
 
 	public void onFiveMinuteClickAR() {
 		sounds.GetComponent<AudioSource> ().Play ();
 		GameObject.FindObjectOfType<TimeBetweenScenes> ().TimeForRound = 300f;
+		GameObject.FindObjectOfType<TimeBetweenScenes> ().matchType = LeaderboardAPI.MatchType.FiveMinuteAR;
 		moveToARScene ();
 	}
 
@@ -90,18 +105,21 @@ public class MenuController : MonoBehaviour {
 	public void onOneMinuteClickStandard() {
 		sounds.GetComponent<AudioSource> ().Play ();
 		GameObject.FindObjectOfType<TimeBetweenScenes> ().TimeForRound = 60f;
+		GameObject.FindObjectOfType<TimeBetweenScenes> ().matchType = LeaderboardAPI.MatchType.OneMinuteNonAR;
 		moveToStandardScene ();
 	}
 
 	public void onThreeMinuteClickStandard() {
 		sounds.GetComponent<AudioSource> ().Play ();
 		GameObject.FindObjectOfType<TimeBetweenScenes> ().TimeForRound = 180f;
+		GameObject.FindObjectOfType<TimeBetweenScenes> ().matchType = LeaderboardAPI.MatchType.ThreeMinuteNonAR;
 		moveToStandardScene ();
 	}
 
 	public void onFiveMinuteClickStandard() {
 		sounds.GetComponent<AudioSource> ().Play ();
 		GameObject.FindObjectOfType<TimeBetweenScenes> ().TimeForRound = 300f;
+		GameObject.FindObjectOfType<TimeBetweenScenes> ().matchType = LeaderboardAPI.MatchType.FiveMinuteNonAR;
 		moveToStandardScene ();
 	}
 

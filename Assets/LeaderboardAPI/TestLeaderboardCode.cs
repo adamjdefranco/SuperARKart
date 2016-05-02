@@ -29,7 +29,7 @@ public class TestLeaderboardCode : MonoBehaviour
 		if (!success) {
 			yield break;
 		}
-		yield return api.submitScore (6000, LeaderboardAPI.MatchType.HalfMinuteAR, () => {
+		yield return api.submitScore (6000, LeaderboardAPI.MatchType.OneMinuteAR, () => {
 			Debug.Log("Score submitted successfully.");
 		}, logFailure);
 		yield return api.getLeaderboard(0,(scores)=>{

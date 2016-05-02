@@ -2,7 +2,6 @@
 using System.Collections;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(LeaderboardAPI))]
 public class LeaderboardUI : MonoBehaviour {
 
 	public Text loadingText;
@@ -15,18 +14,14 @@ public class LeaderboardUI : MonoBehaviour {
 
 	public GameObject scoresContentContainer;
 
-	private LeaderboardAPI api;
+	public LeaderboardAPI api;
 
 	void Start(){
 		scoresContainer.SetActive (false);
 		loadingText.enabled = true;
-		api = GetComponent<LeaderboardAPI> ();
 	}
 
 	public void fetchAndDisplayScores(){
-		if (api == null) {
-			api = GetComponent<LeaderboardAPI> ();
-		}
 		foreach(Transform child in scoresContentContainer.transform){
 			Destroy(child.gameObject);
 		}

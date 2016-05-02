@@ -42,6 +42,7 @@ public class LeaderboardAPI : MonoBehaviour {
 		} else if (PlayerPrefs.HasKey (devicePreferenceKey)) {
 			Debug.Log ("Pulling device ID from player prefs");
 			deviceID = PlayerPrefs.GetString (devicePreferenceKey);
+			Debug.Log ("We found the device ID in player prefs");
 			yield break;
 		} else {
 			Debug.Log ("Retrieving new device ID from server.");
@@ -103,8 +104,13 @@ public class LeaderboardAPI : MonoBehaviour {
 		}, errorFunction);
 	}
 
+	public void submitScoreAsync(int score, MatchType type, Action successFunction, Action<string, JSONObject> errorFunction){
+		StartCoroutine(submitScore(score,type,successFunction,errorFunction));
+	}
+
 	public IEnumerator submitScore(int score, MatchType type, Action successFunction, Action<string,JSONObject> errorFunction){
 		yield return WaitUntilDeviceRegistered ();
+		Debug.Log ("Submitting a score to the leaderboards.");
 		string url = APIBaseUrl + "leaderboard/submit";
 		JSONObject form = newAPIForm ();
 		form.AddField ("score", score);
@@ -141,12 +147,12 @@ public class LeaderboardAPI : MonoBehaviour {
 	}
 
 	public class MatchType {
-		public static readonly MatchType HalfMinuteAR = new MatchType ("30s-AR", true);
 		public static readonly MatchType OneMinuteAR = new MatchType ("1m-AR", true);
-		public static readonly MatchType ThreeMinuteAR = new MatchType ("3m-AR",true);
-		public static readonly MatchType HalfMinuteNonAR = new MatchType ("30s-NAR",false);
+		public static readonly MatchType ThreeMinuteAR = new MatchType ("3m-AR", true);
+		public static readonly MatchType FiveMinuteAR = new MatchType ("5m-AR",true);
 		public static readonly MatchType OneMinuteNonAR = new MatchType ("1m-NAR",false);
 		public static readonly MatchType ThreeMinuteNonAR = new MatchType ("3m-NAR",false);
+		public static readonly MatchType FiveMinuteNonAR = new MatchType ("5m-NAR",false);
 		public static readonly MatchType Unknown = new MatchType ("Unknown", false);
 
 		private readonly string code;
@@ -167,18 +173,18 @@ public class LeaderboardAPI : MonoBehaviour {
 
 		public static MatchType valueOf(string type){
 			switch (type) {
-				case "30s-AR":
-					return HalfMinuteAR;
 				case "1m-AR":
 					return OneMinuteAR;
 				case "3m-AR":
 					return ThreeMinuteAR;
-				case "30s-NAR":
-					return HalfMinuteNonAR;
+				case "5m-AR":
+					return FiveMinuteAR;
 				case "1m-NAR":
 					return OneMinuteNonAR;
 				case "3m-NAR":
 					return ThreeMinuteNonAR;
+				case "5m-NAR":
+					return FiveMinuteNonAR;
 				default:
 					return Unknown;
 			}
