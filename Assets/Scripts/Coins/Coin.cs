@@ -15,7 +15,6 @@ public class Coin : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider col) {
-		Debug.Log ("COIN COLLISION");
 		if (col.gameObject.layer == LayerMask.NameToLayer("Player")) {
             SimpleCarController car = col.gameObject.transform.root.GetComponent<SimpleCarController>();
 			if (this.spawner != null) {

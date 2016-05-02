@@ -52,6 +52,21 @@ public class CoinSpawningSystem : MonoBehaviour
         }
     }
 
+    //void OnDrawGizmos()
+    //{
+    //    foreach (Coin c in visibleCoins)
+    //    {
+    //        Vector3 position = c.gameObject.transform.position;
+    //        Vector3 castPosition = new Vector3(position.x, raycastY, position.z);
+    //        RaycastHit hit;
+    //        if (Physics.Raycast(castPosition, Vector3.down, out hit, raycastY + 1, ~LayerMask.NameToLayer("Environment")))
+    //        {
+    //            Gizmos.DrawSphere(hit.point, 0.1f);
+    //        }
+
+    //    }
+    //}
+
     private void spawnNewCoin(int index)
     {
         Vector3 position = new Vector3(-1, -1, -1);
@@ -66,7 +81,7 @@ public class CoinSpawningSystem : MonoBehaviour
                 break;
             }
         }
-        if (i == 6)
+        if (i == 5)
         {
             Debug.LogError("Ran out of attempts to find a spawn location.");
             return;
@@ -79,7 +94,7 @@ public class CoinSpawningSystem : MonoBehaviour
         else {
             coin = Instantiate(powerupCoins[index]) as GameObject;
         }
-        coin.transform.position = position;
+        coin.transform.position = position + new Vector3(0,coinHoverHeight,0);
         Coin cCoin = coin.GetComponent<Coin>();
         cCoin.setSpawner(this);
         visibleCoins.Add(cCoin);
@@ -99,13 +114,13 @@ public class CoinSpawningSystem : MonoBehaviour
     private Vector3 findGameSpacePosition(Vector3 input)
     {
         RaycastHit hit;
-        Physics.Raycast(input, Vector3.down, out hit, raycastY + 1, LayerMask.NameToLayer("Environment"));
-        return new Vector3(input.x, hit.point.y + coinHoverHeight, input.z);
+        Physics.Raycast(input, Vector3.down, out hit, raycastY + 1, ~LayerMask.NameToLayer("Environment"));
+        return new Vector3(input.x, hit.point.y, input.z);
     }
 
     private bool validSpawnPosition(Vector3 position)
     {
-        return position.y == bounds.min.y;
+        return Mathf.Abs(position.y -  bounds.min.y) <= 0.1f;
     }
 
     public void pickedUpCoin(Coin coin, SimpleCarController car)
