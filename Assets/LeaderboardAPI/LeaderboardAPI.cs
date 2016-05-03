@@ -165,6 +165,29 @@ public class LeaderboardAPI : MonoBehaviour {
 		}, errorFunction);
 	}
 
+	public IEnumerator getLeaderboard(int page, MatchType type, Action<List<LeaderboardScore>> successFunction, Action<string,JSONObject> errorFunction){
+		yield return WaitUntilDeviceRegistered ();
+		Debug.Log ("We are requesting things from the leaderboard");
+		string url = APIBaseUrl + "leaderboard?page="+page;
+		JSONObject form = newAPIForm();
+		form.AddField ("type", type.ToString ());
+		yield return WaitForRequest (url,form,(obj)=>{
+			Debug.Log("We made it here!");
+			List<LeaderboardScore> scores = new List<LeaderboardScore>();
+			JSONObject scorePiece = obj.GetField("data");
+			foreach(JSONObject s in scorePiece.list){
+				int score = (int)s.GetField("score").n;
+				MatchType retrType = MatchType.valueOf(s.GetField("match_type").str);
+				string username = s.GetField("username").str;
+				DateTime date = DateTime.ParseExact(s.GetField("uploaded_at").str, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+				scores.Add(new LeaderboardScore(score,username,retrType,date));
+			}
+			if(successFunction != null){
+				successFunction(scores);
+			}
+		}, errorFunction);
+	}
+
 	private JSONObject newAPIForm(){
 		JSONObject form = new JSONObject();
 		form.AddField ("app_key", appKey);
