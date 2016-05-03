@@ -21,13 +21,37 @@ public class LeaderboardUI : MonoBehaviour {
 		loadingText.enabled = true;
 	}
 
-	public void fetchAndDisplayScores(){
+	public void myDropdownValueChangedHandler(Dropdown target) {
+		switch (target.value) {
+		case 0: 
+			fetchAndDisplayScores (LeaderboardAPI.MatchType.OneMinuteAR);
+			break;
+		case 1: 
+			fetchAndDisplayScores (LeaderboardAPI.MatchType.ThreeMinuteAR);
+			break;
+		case 2: 
+			fetchAndDisplayScores (LeaderboardAPI.MatchType.FiveMinuteAR);
+			break;
+		case 3: 
+			fetchAndDisplayScores (LeaderboardAPI.MatchType.OneMinuteNonAR);
+			break;
+		case 4: 
+			fetchAndDisplayScores (LeaderboardAPI.MatchType.ThreeMinuteNonAR);
+			break;
+		case 5: 
+			fetchAndDisplayScores (LeaderboardAPI.MatchType.FiveMinuteNonAR);
+			break;
+		}
+		Debug.Log("selected: "+target.value);
+	}
+
+	public void fetchAndDisplayScores(LeaderboardAPI.MatchType matchType){
 		foreach(Transform child in scoresContentContainer.transform){
 			Destroy(child.gameObject);
 		}
 		scoresContainer.SetActive (false);
 		loadingText.enabled = true;
-		StartCoroutine(api.getLeaderboard (1, LeaderboardAPI.MatchType.OneMinuteAR, (scores) => {
+		StartCoroutine(api.getLeaderboard (1, matchType, (scores) => {
 			if(scores.Count == 0){
 				loadingText.text = "There are no scores for this match type!";
 				return;
