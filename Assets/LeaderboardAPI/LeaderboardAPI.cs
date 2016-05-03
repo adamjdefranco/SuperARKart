@@ -42,9 +42,13 @@ public class LeaderboardAPI : MonoBehaviour {
 		if (conn.error == null)
 			{
 			JSONObject obj = new JSONObject (conn.text);
+			if (lambda != null) {
 				lambda (obj);
+			}
 			} else {
-			error (conn.error, new JSONObject(conn.text));
+			if (error != null) {
+				error (conn.error, new JSONObject (conn.text));
+			}
 			}    
 	}
 
@@ -88,7 +92,9 @@ public class LeaderboardAPI : MonoBehaviour {
 
 	public IEnumerator logInPlayer(string username, string password, Action successFunction, Action<string,JSONObject> errorFunction){
 		if(PlayerPrefs.HasKey(isSignedInAsKey)){
-			errorFunction("Already logged in! Need to log out first.",new JSONObject());
+			if (errorFunction != null) {
+				errorFunction ("Already logged in! Need to log out first.", new JSONObject ());
+			}
 			yield break;
 		}
 		yield return WaitUntilDeviceRegistered ();
@@ -98,13 +104,17 @@ public class LeaderboardAPI : MonoBehaviour {
 		form.AddField ("password", password);
 		yield return WaitForRequest (url,form, (obj)=>{
 			PlayerPrefs.SetString(isSignedInAsKey,username);
+			if(successFunction != null){
 			successFunction();
+			}
 		}, errorFunction);
 	}
 
 	public IEnumerator signOutPlayer(Action successFunction, Action<string,JSONObject> errorFunction){
 		if(!PlayerPrefs.HasKey(isSignedInAsKey)){
-			errorFunction("Not signed in.",new JSONObject());
+			if (errorFunction != null) {
+				errorFunction ("Not signed in.", new JSONObject ());
+			}
 			yield break;
 		}
 		yield return WaitUntilDeviceRegistered ();
@@ -112,7 +122,9 @@ public class LeaderboardAPI : MonoBehaviour {
 		JSONObject form = newAPIForm ();
 		yield return WaitForRequest (url,form, (obj)=>{
 			PlayerPrefs.DeleteKey(isSignedInAsKey);
+			if(successFunction != null){
 			successFunction();
+			}
 		}, errorFunction);
 	}
 
@@ -147,7 +159,9 @@ public class LeaderboardAPI : MonoBehaviour {
 				DateTime date = DateTime.ParseExact(s.GetField("uploaded_at").str, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
 				scores.Add(new LeaderboardScore(score,username,type,date));
 			}
+			if(successFunction != null){
 			successFunction(scores);
+			}
 		}, errorFunction);
 	}
 
