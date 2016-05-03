@@ -27,16 +27,11 @@ public class MenuController : MonoBehaviour {
 
 			int score = GameObject.FindObjectOfType<ScoreBetweenScenes> ().score;
 			LeaderboardAPI.MatchType mType = GameObject.FindObjectOfType<ScoreBetweenScenes> ().matchType;
-			yield return api.submitScore(score, mType, () => {
+			api.submitScoreAsync(score, mType, () => {
 				Debug.Log ("Submitted score successfully to leaderboard.");
-				mainMenuButton.enabled = true;
-				leaderboardButton.enabled = true;
 			},
 				(error, errorData) => {
 					Debug.LogError ("Something went wrong while submitting a score. " + error + ", data: " + errorData.ToString ());
-					mainMenuButton.enabled = true;
-					leaderboardButton.enabled = true;
-					submitButton.enabled = true;
 				});
 
 
