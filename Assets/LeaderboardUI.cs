@@ -27,7 +27,11 @@ public class LeaderboardUI : MonoBehaviour {
 		}
 		scoresContainer.SetActive (false);
 		loadingText.enabled = true;
-		StartCoroutine(api.getLeaderboard (1, (scores) => {
+		StartCoroutine(api.getLeaderboard (1, LeaderboardAPI.MatchType.OneMinuteAR, (scores) => {
+			if(scores.Count == 0){
+				loadingText.text = "There are no scores for this match type!";
+				return;
+			}
 			loadingText.enabled = false;
 			scoresContainer.SetActive (true);
 			RectTransform scoreContainerTransform = scrollViewport.GetComponent<RectTransform>();
