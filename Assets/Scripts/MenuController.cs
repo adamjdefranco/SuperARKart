@@ -16,6 +16,7 @@ public class MenuController : MonoBehaviour {
 	public GameObject Leaderboards;
 	public GameObject StandardMatchTimes;
 	public GameObject CreditsPage;
+	public GameObject dropDown;
 
 	public LeaderboardAPI api;
 
@@ -64,7 +65,28 @@ public class MenuController : MonoBehaviour {
 	public void goToLeaderBoards() {
 		sounds.GetComponent<AudioSource> ().Play ();
 		navigateToCertainCanvas (false, true, false, false, false, false, false);
-		Leaderboards.GetComponent<LeaderboardUI> ().fetchAndDisplayScores (LeaderboardAPI.MatchType.OneMinuteAR);
+		if (GameObject.FindObjectOfType<ScoreBetweenScenes> () == null) {
+			// Brings the user to the default leaderboard (one minute AR) if navigating from main menu
+			Leaderboards.GetComponent<LeaderboardUI> ().fetchAndDisplayScores (LeaderboardAPI.MatchType.OneMinuteAR);
+		} else {
+			// Brings the user to the leaderboard of the match type they were playing if they are coming from a match
+			LeaderboardAPI.MatchType mType = GameObject.FindObjectOfType<ScoreBetweenScenes> ().matchType;
+
+			if (mType == LeaderboardAPI.MatchType.OneMinuteAR) { 
+				dropDown.GetComponent<Dropdown> ().value = 0;
+			} else if (mType == LeaderboardAPI.MatchType.ThreeMinuteAR) {  
+				dropDown.GetComponent<Dropdown> ().value = 1;
+			} else if (mType == LeaderboardAPI.MatchType.FiveMinuteAR) { 
+				dropDown.GetComponent<Dropdown> ().value = 2;
+			} else if (mType == LeaderboardAPI.MatchType.OneMinuteNonAR) { 
+				dropDown.GetComponent<Dropdown> ().value = 3;
+			} else if (mType == LeaderboardAPI.MatchType.ThreeMinuteNonAR) { 
+				dropDown.GetComponent<Dropdown> ().value = 4;
+			} else if (mType == LeaderboardAPI.MatchType.FiveMinuteNonAR) { 
+				dropDown.GetComponent<Dropdown> ().value = 5;
+			}
+			//Leaderboards.GetComponent<LeaderboardUI> ().fetchAndDisplayScores (GameObject.FindObjectOfType<ScoreBetweenScenes> ().matchType);
+		}
 	}
 
 	public void onPlayARClick() {
