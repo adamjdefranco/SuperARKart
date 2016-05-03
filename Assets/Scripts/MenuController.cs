@@ -21,15 +21,6 @@ public class MenuController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		if (GameObject.FindObjectOfType<TimeBetweenScenes> ().IsComingFromEndGame) {
-			int score = GameObject.FindObjectOfType<ScoreBetweenScenes> ().score;
-			LeaderboardAPI.MatchType mType = GameObject.FindObjectOfType<ScoreBetweenScenes> ().matchType;
-			api.submitScoreAsync(score, mType, () => {
-				Debug.Log ("Submitted score successfully to leaderboard.");
-			},
-				(error, errorData) => {
-					Debug.LogError ("Something went wrong while submitting a score. " + error + ", data: " + errorData.ToString ());
-				});
-			
 			MainMenuCanvas.SetActive (false);
 			GameOverScreen.SetActive (true);
 

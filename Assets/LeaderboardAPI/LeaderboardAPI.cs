@@ -18,6 +18,18 @@ public class LeaderboardAPI : MonoBehaviour {
 
 	private string deviceID;
 
+	public string DeviceIdentifier {
+		get {
+			return deviceID;
+		}
+	}
+
+	public string SignedInAs {
+		get {
+			return PlayerPrefs.GetString (isSignedInAsKey, null);
+		}
+	}
+
 	IEnumerator WaitForRequest(string url, JSONObject data, Action<JSONObject> lambda, Action<string, JSONObject> error)
 	{
 		Dictionary<string,string> headers = new Dictionary<string,string>();
