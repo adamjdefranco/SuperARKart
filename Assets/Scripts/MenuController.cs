@@ -15,6 +15,7 @@ public class MenuController : MonoBehaviour {
 	public GameObject finalScoreField;
 	public GameObject Leaderboards;
 	public GameObject StandardMatchTimes;
+	public GameObject CreditsPage;
 
 	public LeaderboardAPI api;
 
@@ -28,44 +29,47 @@ public class MenuController : MonoBehaviour {
 		} 
 	}
 
-	public void navigateToCertainCanvas(bool gameOverScreen, bool leaderboards, bool mainMenuCanvas, bool arMatchTimes, bool mainMenuButtons, bool standardMatchTimes) {
+	public void navigateToCertainCanvas(bool gameOverScreen, bool leaderboards, bool mainMenuCanvas, bool arMatchTimes, bool mainMenuButtons, bool standardMatchTimes, bool creditsPage) {
 		GameOverScreen.SetActive (gameOverScreen);
 		MainMenuCanvas.SetActive (mainMenuCanvas);
 		Leaderboards.SetActive (leaderboards);
 		ARMatchTimes.SetActive (arMatchTimes);
 		mainMenu.SetActive (mainMenuButtons);
 		StandardMatchTimes.SetActive (standardMatchTimes);
+		CreditsPage.SetActive (creditsPage);
 	}
 
 	public void backToMainMenu() {
 		GameObject.Find ("Sounds").GetComponent<AudioSource> ().Play ();
-		navigateToCertainCanvas (false, false, true, false, true, false);
+		navigateToCertainCanvas (false, false, true, false, true, false, false);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+		
+	// Menu buttons onClick
+
+	public void goToCreditsPage() {
+		sounds.GetComponent<AudioSource> ().Play ();
+		navigateToCertainCanvas (false, false, false, false, false, false, true);
 	}
 
 	public void goToLeaderBoards() {
 		sounds.GetComponent<AudioSource> ().Play ();
-		navigateToCertainCanvas (false, true, false, false, false, false);
+		navigateToCertainCanvas (false, true, false, false, false, false, false);
 		Leaderboards.GetComponent<LeaderboardUI> ().fetchAndDisplayScores ();
 	}
 
 	public void onPlayARClick() {
 		sounds.GetComponent<AudioSource> ().Play ();
-		navigateToCertainCanvas (false, false, true, true, false, false);
+		navigateToCertainCanvas (false, false, true, true, false, false, false);
 	}
 
 	public void onPlayStandardClick() {
 		sounds.GetComponent<AudioSource> ().Play ();
-		navigateToCertainCanvas (false, false, true, false, false, true);
+		navigateToCertainCanvas (false, false, true, false, false, true, false);
 	}
 
 	public void onBackClick() {
 		sounds.GetComponent<AudioSource> ().Play ();
-		navigateToCertainCanvas (false, false, true, false, true, false);
+		navigateToCertainCanvas (false, false, true, false, true, false, false);
 	}
 
 	// Navigate to the AR scene with proper time
@@ -124,7 +128,7 @@ public class MenuController : MonoBehaviour {
 
 	public void navigateToMenu() {
 		StartCoroutine (LevelCoroutine ("MainMenu"));
-		navigateToCertainCanvas (false, false, true, false, true, false);
+		navigateToCertainCanvas (false, false, true, false, true, false, false);
 	}
 
 	// Loads the next level and shows a loading bar in the meantime
